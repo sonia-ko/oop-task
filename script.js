@@ -51,16 +51,20 @@ const lnu = new University(
 );
 
 class User {
-  // # does not work in all modern browsers for now. For older browsers support, we will use _ instead of #
+  // # for properties currently works on Google Chrome and Edge. But it does not work in all modern browsers for now. For older browsers support, we will use _ instead of #.
+  // Regular setters and getters cannot be used to set the private properties, that is why I have used private methods to set them.
+  // For the private methods, I have used _ instead of # because # does not work for methods yet. Hope that it will be implemented soon :)
 
   #name;
   #surname;
   #bDate;
+  maxYear = new Date().getFullYear();
+  minYear = 1990;
 
   constructor(name, surname, bDate) {
-    this.#name = name;
-    this.#surname = surname;
-    this.#bDate = bDate;
+    this._setName(name);
+    this._setSurname(surname);
+    this._setBirthYear(bDate);
   }
 
   getFullName() {
@@ -71,17 +75,44 @@ class User {
     return `${this.#name} ${this.#surname} , ${this.#bDate}`;
   }
 
-  // name validation 
+  // name validation
+  _setName(name) {
+    if (/^[ A-Za-z-]*$/i.test(name) && name.length <= 32) {
+      this.#name = name;
+    } else {
+      console.error(
+        "The name should include only letters and hyphens. Maximum length is 32."
+      );
+    }
+  }
 
-  set #name(un){
-    if(/^[ A-Za-z-]*$/i.test(un)){
-      this._name = un;
-    }else{
-      console.error('The name should include only letters and hyphens')
+  // surname validation
+  _setSurname(surname) {
+    if (/^[ A-Za-z-]*$/i.test(surname) && surname.length <= 64) {
+      this.#surname = surname;
+    } else {
+      console.error(
+        "The surname should include only letters and hyphens. Maximum length is 64."
+      );
+    }
+  }
+
+  _setBirthYear(year) {
+    if (
+      year.toString().length <= 4 &&
+      /^\d+$/.test(year.toString()) &&
+      year <= this.maxYear &&
+      year >= this.minYear
+    ) {
+      this.#bDate = year;
+    } else {
+      console.error(
+        `The birth year should be less than 4 digits long and include only digits. The latest year that can be indicated should be within the range of: ${this.minYear} - ${this.maxYear}`
+      );
     }
   }
 }
 
-const stewen = new User("Stewen", "Potter", "1992-20-12");
+const johnSnow = new User("John", "Snow", 2020);
 
-console.log(stewen.getFullInfo());
+console.log(johnSnow.getFullInfo());
