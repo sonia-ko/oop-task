@@ -28,7 +28,6 @@ class University {
   }
 
   // zip code validation
-
   set zipCode(code) {
     if (code.toString().length <= 5 && /^\d+$/.test(code.toString())) {
       this._zipCode = code;
@@ -58,8 +57,8 @@ class User {
   #name;
   #surname;
   #bDate;
-  maxYear = new Date().getFullYear();
-  minYear = 1990;
+  static currentYear = new Date().getFullYear();
+  static minYear = 1990;
 
   constructor(name, surname, bDate) {
     this._setName(name);
@@ -97,17 +96,18 @@ class User {
     }
   }
 
+  //birth year validation
   _setBirthYear(year) {
     if (
       year.toString().length <= 4 &&
       /^\d+$/.test(year.toString()) &&
-      year <= this.maxYear &&
-      year >= this.minYear
+      year <= User.currentYear &&
+      year >= User.minYear
     ) {
       this.#bDate = year;
     } else {
       console.error(
-        `The birth year should be less than 4 digits long and include only digits. The latest year that can be indicated should be within the range of: ${this.minYear} - ${this.maxYear}`
+        `The birth year should be less than 4 digits long and include only digits. The latest year that can be indicated should be within the range of: ${User.minYear} - ${User.currentYear}`
       );
     }
   }
@@ -116,3 +116,53 @@ class User {
 const johnSnow = new User("John", "Snow", 2020);
 
 console.log(johnSnow.getFullInfo());
+
+class Student extends User {
+  static counter = 0;
+  #year;
+  #university;
+  constructor(name, surname, bDate, year, university) {
+    super(name, surname, bDate);
+    Student.counter++;
+    // _setYear();
+    this.#year = year;
+    // _setUniversity();
+    this.#university = university;
+  }
+
+  static updateCounter() {
+    ++counter;
+  }
+
+  getCourse() {
+    let course = User.currentYear - this.#year;
+    return course < 6
+      ? course
+      : `${this.getFullName()} is not a student anymore 🙋🏻‍♀️`;
+  }
+
+  isFinished() {
+    return User.currentYear - this.#year < 6 ? false : true;
+  }
+
+  getFullInfo() {
+    return `${this.getFullName()}, ${this.#university.name}, ${this.#year}`;
+  }
+
+  static getCounter() {
+    return this.counter;
+  }
+
+  _setUniversity() {}
+
+  _setYear() {}
+}
+
+let arya = new Student("Arya", "Stark", 1998, 2019, lnu);
+let rob = new Student("Rob", "Stark", 1991, 2016, lnu);
+console.log(arya);
+
+console.log(arya.getCourse());
+console.log(arya.isFinished());
+console.log(Student.getCounter());
+console.log(arya.getFullInfo());
