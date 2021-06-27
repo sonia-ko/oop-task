@@ -49,6 +49,12 @@ const lnu = new University(
   "6789"
 );
 
+const lpu = new University(
+  "Lviv Polytechnic National University",
+  "Lviv",
+  "7900"
+);
+
 class User {
   // # for properties currently works on Google Chrome and Edge. But it does not work in all modern browsers for now. For older browsers support, we will use _ instead of #.
   // Regular setters and getters cannot be used to set the private properties, that is why I have used private methods to set them.
@@ -119,15 +125,15 @@ console.log(johnSnow.getFullInfo());
 
 class Student extends User {
   static counter = 0;
+  static minEntryYear = 1900;
   #year;
-  #university;
+  #university = "no info about the university";
+
   constructor(name, surname, bDate, year, university) {
     super(name, surname, bDate);
     Student.counter++;
-    // _setYear();
-    this.#year = year;
-    // _setUniversity();
-    this.#university = university;
+    this._setYear(year);
+    this._setUniversity(university);
   }
 
   static updateCounter() {
@@ -138,7 +144,7 @@ class Student extends User {
     let course = User.currentYear - this.#year;
     return course < 6
       ? course
-      : `${this.getFullName()} is not a student anymore 🙋🏻‍♀️`;
+      : `${this.getFullName()} is not a student anymore 👩🏻‍🎓`;
   }
 
   isFinished() {
@@ -146,23 +152,46 @@ class Student extends User {
   }
 
   getFullInfo() {
-    return `${this.getFullName()}, ${this.#university.name}, ${this.#year}`;
+    return `${this.getFullName()}, ${
+      this.#university.name ?? this.#university
+    }, ${this.#year}`;
   }
 
   static getCounter() {
     return this.counter;
   }
 
-  _setUniversity() {}
+  //university validation
+  _setUniversity(university) {
+    if (!university) return;
 
-  _setYear() {}
+    if (university instanceof University) {
+      this.#university = university;
+    } else {
+      console.error(`${university} is not a valid university`);
+      this.#university = "No info about the university";
+    }
+  }
+
+  // starter year validation
+  _setYear(year) {
+    if (
+      year.toString().length <= 4 &&
+      /^\d+$/.test(year.toString()) &&
+      year <= User.currentYear &&
+      year >= Student.minEntryYear
+    ) {
+      this.#year = year;
+    } else {
+      console.error(
+        `The starter year should be less than 4 digits long and include only digits. The latest year that can be indicated should be within the range of: ${Student.minEntryYear} - ${User.currentYear}`
+      );
+    }
+  }
 }
 
-let arya = new Student("Arya", "Stark", 1998, 2019, lnu);
-let rob = new Student("Rob", "Stark", 1991, 2016, lnu);
-console.log(arya);
+let kpu = "Kyiv Politech University";
 
-console.log(arya.getCourse());
-console.log(arya.isFinished());
-console.log(Student.getCounter());
-console.log(arya.getFullInfo());
+const arya = new Student("Arya", "Stark", 1998, 2019, lpu);
+const rob = new Student("Rob", "Stark", 1991, 2016, lnu);
+const sansa = new Student("Sansa", "Stark", 1994, 2018);
