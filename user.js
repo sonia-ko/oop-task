@@ -1,4 +1,4 @@
-class User {
+export default class User {
   static currentYear = new Date().getFullYear();
   static minYear = 1990;
 

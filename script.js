@@ -1,3 +1,10 @@
+// importing modules
+import University from "./university.js";
+import User from "./user.js";
+import Student from "./student.js";
+import Worker from "./worker.js";
+
+// creating instances of the
 const lnu = new University(
   "Ivan Franko National University of Lviv",
   "Lviv",

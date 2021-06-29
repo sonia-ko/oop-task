@@ -1,4 +1,6 @@
-class Worker extends User {
+import User from "./user.js";
+
+export default class Worker extends User {
   static counter = 0;
 
   constructor(name, surname, bDate, rate, days, retired = false) {

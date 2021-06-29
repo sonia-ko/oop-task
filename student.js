@@ -1,4 +1,7 @@
-class Student extends User {
+import User from "./user.js";
+import University from "./university.js";
+
+export default class Student extends User {
   static counter = 0;
   static minEntryYear = 1900;
 
