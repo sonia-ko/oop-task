@@ -4,41 +4,76 @@ import User from "./user.js";
 import Student from "./student.js";
 import Worker from "./worker.js";
 
-// creating instances of the
+// creating instances of the University class
+
 const lnu = new University(
   "Ivan Franko National University of Lviv",
   "Lviv",
-  "6789"
+  79000
 );
 
 const lpu = new University(
   "Lviv Polytechnic National University",
   "Lviv",
-  "7900"
+  79000
 );
 
-// lnu.setZipCode("jhdj");
-// lnu.setCity(123);
-// lnu.setName("Some other name");
-// console.log(lnu.getName());
+const hogwarts = new University(
+  "Hogwarts School of Witchcraft and Wizardry",
+  "Dufftown",
+  1234
+);
 
-const johnSnow = new User("John", "Snow", 2020);
+// Examples of working with the instances
+lnu.setZipCode(79001);
+console.log(hogwarts.getZipCode());
+lnu.setName("Some other name");
+console.log(lpu.getAddress());
+lpu.setCity("Lvivv");
 
-// console.log(johnSnow.getFullInfo());
-// johnSnow.setSurname("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN898");
-// console.log(johnSnow.getName());
+//Creating an instance of the User Class:
 
-let kpu = "Kyiv Politech University";
+const john = new User("John", "Snow", 2020);
+
+//examples of working with the User class:
+
+john.setSurname("Targaryen");
+john.setBDate(1992);
+
+console.log(john.getName());
+console.log(john.getFullName());
+console.log(john.getFullInfo());
+
+// creating inctances of a Student class:
 
 const arya = new Student("Arya", "Stark", 1998, 2019, lpu);
 const rob = new Student("Rob", "Stark", 1991, 2016, lnu);
 const sansa = new Student("Sansa", "Stark", 1994, 2018);
 
-const cersei = new Worker("Cersei", "Lannister", 1990, 100, 30);
-console.log(cersei);
+//examples of working with the Student class:
+
+sansa.setSurname("Bolton");
+sansa.setUniversity(hogwarts);
+arya.setYear(1995);
+rob.setName("Robb");
+console.log(sansa.getYear());
+console.log(sansa.getCourse());
+console.log(sansa.getFullName());
+
+// creating instances of the Worker class
+
+const cersei = new Worker("Cersei", "Lannister", 1990, 100, 30, false);
+const robert = new Worker("Robert", "Baratheon", 1990, 50, 17);
+const tyrion = new Worker("Tyrion", "Lannister", 1992, 10, 31, false);
+
+// examples of working with the class:
+cersei.setRetired(true);
+tyrion.setRate(25);
+robert.setRetired(true);
+robert.setDays(76);
+
 console.log(cersei.getFullName());
 console.log(cersei.isRetired());
 console.log(cersei.getSalary());
-console.log(cersei.getRate());
-cersei.setRetired(true);
-console.log(cersei.isRetired());
+console.log(tyrion.getRate());
+console.log(robert.isRetired());

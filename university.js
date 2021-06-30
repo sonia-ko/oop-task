@@ -87,7 +87,7 @@ export default class University {
   // name validation
 
   /**
-   * @type {string} - the setter used to validate the input of the university
+   * @type {string} - the setter used to validate the input of the university name
    */
 
   set name(univName) {
